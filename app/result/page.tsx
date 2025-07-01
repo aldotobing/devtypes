@@ -1,9 +1,7 @@
 "use client";
+// Note: Metadata is handled in layout.tsx and metadata.ts
 
 import { useState, useEffect } from "react";
-import type { Metadata } from 'next';
-
-export { generateMetadata } from './metadata';
 import { useRouter } from "next/navigation";
 import { PersonalityResult } from "@/lib/types";
 import { analyzeAnswers } from "@/lib/ai";
