@@ -40,16 +40,10 @@ export default function ResultCard({ result, onRetake }: ResultCardProps) {
       quote: result.quote,
     });
 
-    // Create a share URL with the personality type as a query parameter
-    // Use the production URL for sharing to ensure it works when shared
-    const baseUrl = 'https://devtypes.vercel.app';
-    const shareUrl = new URL('/result', baseUrl);
-    shareUrl.searchParams.set('type', encodeURIComponent(result.type));
-    
     const shareData = {
       title: `I'm a ${result.type}!`,
       text: shareText,
-      url: shareUrl.toString(),
+      url: window.location.href,
     };
 
     try {
