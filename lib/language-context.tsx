@@ -16,59 +16,21 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [t, setT] = useState<Translations>(getTranslations('id'));
 
   useEffect(() => {
-    const detectLanguage = async () => {
-      try {
-        // Try to get saved language first
-        const savedLang = localStorage.getItem('devtype-language') as Language;
-        if (savedLang && (savedLang === 'en' || savedLang === 'id')) {
-          setLanguage(savedLang);
-          setT(getTranslations(savedLang));
-          return;
-        }
-
-        // Try to detect language from geolocation
-        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-          if (!navigator.geolocation) {
-            reject('Geolocation not supported');
-            return;
-          }
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-          });
-        });
-
-        // Use reverse geocoding to get country code
-        const { latitude, longitude } = position.coords;
-        const response = await fetch(
-          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
-        );
-        const data = await response.json();
-        const countryCode = data.countryCode?.toLowerCase();
-        
-        // Map country codes to supported languages
-        const countryToLang: Record<string, Language> = {
-          id: 'id', // Indonesia
-          my: 'en', // Malaysia
-          sg: 'en', // Singapore
-          // Add more country codes as needed
-        };
-
-        const detectedLang = countryToLang[countryCode] || 
-                           (navigator.language.toLowerCase().startsWith('en') ? 'en' : 'id');
-        
-        setLanguage(detectedLang);
-        setT(getTranslations(detectedLang));
-        localStorage.setItem('devtype-language', detectedLang);
-      } catch (error) {
-        console.error('Error detecting language:', error);
-        // Fallback to browser language
-        const browserLang = navigator.language.toLowerCase();
-        const detectedLang = browserLang.startsWith('id') ? 'id' : 'en';
-        setLanguage(detectedLang);
-        setT(getTranslations(detectedLang));
+    const detectLanguage = () => {
+      // Try to get saved language first
+      const savedLang = localStorage.getItem('devtype-language') as Language;
+      if (savedLang && (savedLang === 'en' || savedLang === 'id')) {
+        setLanguage(savedLang);
+        setT(getTranslations(savedLang));
+        return;
       }
+      
+      // Fallback to browser language
+      const browserLang = navigator.language.toLowerCase();
+      const detectedLang = browserLang.startsWith('id') ? 'id' : 'en';
+      setLanguage(detectedLang);
+      setT(getTranslations(detectedLang));
+      localStorage.setItem('devtype-language', detectedLang);
     };
 
     detectLanguage();
