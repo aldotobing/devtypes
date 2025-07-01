@@ -12,11 +12,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'DevType - Discover Your Developer Personality',
     description: 'Take the ultimate developer personality test and discover what type of coder you really are. Built for developers, by developers.',
-    url: 'https://devtypes.vercel.app', // Replace with your actual domain
+    url: 'https://devtypes.vercel.app',
     siteName: 'DevType',
     images: [
       {
-        url: '/og-image.png', // This will be served from the public directory
+        url: 'https://devtypes.vercel.app/og-image.png',
         width: 1200,
         height: 630,
         alt: 'DevType - Discover Your Developer Personality',
@@ -29,9 +29,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'DevType - Discover Your Developer Personality',
     description: 'Take the ultimate developer personality test and discover what type of coder you really are.',
-    images: ['/og-image.png'], // This will be served from the public directory
+    images: ['https://devtypes.vercel.app/og-image.png'],
   },
-  metadataBase: new URL('https://devtypes.vercel.app'), // Replace with your actual domain
+  metadataBase: new URL('https://devtypes.vercel.app'),
 };
 
 export default function RootLayout({

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-// For static exports, we need to define metadata directly
+// For static exports, we use a static image for social sharing
 export const metadata: Metadata = {
   title: 'My DevType Result | DevType',
   description: 'Check out my developer personality type on DevType!',
@@ -11,10 +11,10 @@ export const metadata: Metadata = {
     siteName: 'DevType',
     images: [
       {
-        url: 'https://devtypes.vercel.app/api/og?title=My%20DevType%20Result&description=Check%20out%20my%20developer%20personality%20type%20on%20DevType!',
+        url: '/og-image.png', // This will be served from the public directory
         width: 1200,
         height: 630,
-        alt: 'My DevType Result',
+        alt: 'DevType - Discover Your Developer Personality',
       },
     ],
     locale: 'en_US',
@@ -24,6 +24,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'My DevType Result | DevType',
     description: 'Check out my developer personality type on DevType!',
-    images: ['https://devtypes.vercel.app/api/og?title=My%20DevType%20Result&description=Check%20out%20my%20developer%20personality%20type%20on%20DevType!'],
+    images: ['/og-image.png'],
   },
 };
