@@ -43,7 +43,7 @@ export default function ResultCard({ result, onRetake }: ResultCardProps) {
     const shareData = {
       title: `I'm a ${result.type}!`,
       text: shareText,
-      url: window.location.href,
+      url: window.location.origin,
     };
 
     try {
@@ -51,14 +51,14 @@ export default function ResultCard({ result, onRetake }: ResultCardProps) {
         await navigator.share(shareData);
       } else {
         // Fallback for browsers that don't support Web Share API
-        await navigator.clipboard.writeText(`${shareText}\n\n${window.location.href}`);
+        await navigator.clipboard.writeText(`${shareText}\n\n${window.location.origin}`);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       }
     } catch (err) {
       console.error('Error sharing:', err);
       // Fallback to clipboard if sharing fails
-      await navigator.clipboard.writeText(`${shareText}\n\n${window.location.href}`);
+      await navigator.clipboard.writeText(`${shareText}\n\n${window.location.origin}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
