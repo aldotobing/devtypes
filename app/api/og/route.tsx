@@ -1,6 +1,11 @@
 import { ImageResponse } from '@vercel/og';
 import { NextRequest } from 'next/server';
 
+// This route is statically exported
+// @ts-ignore
+// Force static export
+export const dynamic = 'force-static';
+
 export const runtime = 'edge';
 
 export async function GET(req: NextRequest) {

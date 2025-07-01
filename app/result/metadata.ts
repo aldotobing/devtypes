@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
 
 type Props = {
   params: { locale: string };
@@ -10,26 +9,30 @@ export async function generateMetadata({
   params: { locale },
   searchParams,
 }: Props): Promise<Metadata> {
-  const t = await getTranslations({ locale, namespace: 'metadata' });
-  
   // Get the result type from query params if available
-  const type = searchParams.type as string || 'Developer';
-  const description = t('resultDescription', { type });
+  const type = (searchParams.type as string) || 'Developer';
+  const description = `Discover your developer personality type: ${type}. Take the quiz to find out yours!`;
+  
+  // For static exports, we need to ensure the URLs are absolute
+  const baseUrl = 'https://devtypes.vercel.app';
+  const imageUrl = `${baseUrl}/api/og?type=${encodeURIComponent(type)}`;
+  const pageUrl = `${baseUrl}/result?type=${encodeURIComponent(type)}`;
   
   return {
-    title: `${type} - ${t('title')}`,
+    title: `${type} - DevType`,
     description,
+    metadataBase: new URL(baseUrl),
     openGraph: {
-      title: `${type} - ${t('title')}`,
+      title: `${type} - DevType`,
       description,
-      url: `https://devtype.vercel.app/result?type=${encodeURIComponent(type)}`,
+      url: pageUrl,
       siteName: 'DevType',
       images: [
         {
-          url: `https://devtype.vercel.app/api/og?type=${encodeURIComponent(type)}`,
+          url: imageUrl,
           width: 1200,
           height: 630,
-          alt: `${type} - ${t('title')}`,
+          alt: `${type} - DevType`,
         },
       ],
       locale: locale || 'en',
@@ -37,9 +40,19 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${type} - ${t('title')}`,
+      title: `${type} - DevType`,
       description,
-      images: [`https://devtype.vercel.app/api/og?type=${encodeURIComponent(type)}`],
+      images: [imageUrl],
+    },
+    // Add this to ensure proper static export
+    alternates: {
+      canonical: pageUrl,
     },
   };
 }
+
+// Ensure this page is statically generated
+export const dynamic = 'force-static';
+
+// Revalidate the page every hour (optional, for ISR)
+export const revalidate = 3600;
