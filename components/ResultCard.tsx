@@ -40,10 +40,14 @@ export default function ResultCard({ result, onRetake }: ResultCardProps) {
       quote: result.quote,
     });
 
+    // Create a share URL with the personality type as a query parameter
+    const shareUrl = new URL(window.location.href);
+    shareUrl.searchParams.set('type', result.type);
+    
     const shareData = {
       title: `I'm a ${result.type}!`,
       text: shareText,
-      url: window.location.href,
+      url: shareUrl.toString(),
     };
 
     try {
